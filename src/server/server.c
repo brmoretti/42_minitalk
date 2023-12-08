@@ -1,31 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   client.h                                           :+:      :+:    :+:   */
+/*   server.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bmoretti <bmoretti@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/12/06 15:56:42 by bmoretti          #+#    #+#             */
-/*   Updated: 2023/12/07 21:03:19 by bmoretti         ###   ########.fr       */
+/*   Created: 2023/12/07 17:32:36 by bmoretti          #+#    #+#             */
+/*   Updated: 2023/12/07 17:37:28 by bmoretti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef CLIENT_H
-# define CLIENT_H
+#include "server.h"
 
-# ifndef _XOPEN_SOURCE
-#  define _XOPEN_SOURCE 700
-# endif
-# include "libft.h"
-# include <sys/types.h>
-# include <signal.h>
-
-enum	e_errors
+int	main(void)
 {
-	insufficient_args,
-	too_many_args
-};
+	pid_t	pid;
 
-void	errors(int error_code);
-
-#endif
+	pid = getpid();
+	ft_putnbr_fd((int)pid, 1);
+	while (1)
+		sleep (1);
+	return (0);
+}

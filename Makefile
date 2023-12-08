@@ -17,7 +17,7 @@ INCLUDE_FILES		=	client.h	\
 INCLUDES			=	$(addprefix $(INCLUDE_DIR)/, $(INCLUDE_FILES))
 BUILD_DIR			=	build
 SRC_FILES_CLIENT	=	client.c	\
-						err.c
+						errors.c
 SRC_FILES_SERVER	=	server.c
 SRCS_CLIENT			=	$(addprefix $(SRC_DIR_CLIENT)/, $(SRC_FILES_CLIENT))
 SRCS_SERVER			=	$(addprefix $(SRC_DIR_SERVER)/, $(SRC_FILES_SERVER))

@@ -1,31 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   client.h                                           :+:      :+:    :+:   */
+/*   errors.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bmoretti <bmoretti@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/12/06 15:56:42 by bmoretti          #+#    #+#             */
-/*   Updated: 2023/12/07 21:03:19 by bmoretti         ###   ########.fr       */
+/*   Created: 2023/12/07 17:21:58 by bmoretti          #+#    #+#             */
+/*   Updated: 2023/12/07 17:31:23 by bmoretti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef CLIENT_H
-# define CLIENT_H
+#include "client.h"
 
-# ifndef _XOPEN_SOURCE
-#  define _XOPEN_SOURCE 700
-# endif
-# include "libft.h"
-# include <sys/types.h>
-# include <signal.h>
-
-enum	e_errors
+void	errors(int error_code)
 {
-	insufficient_args,
-	too_many_args
-};
-
-void	errors(int error_code);
-
-#endif
+	if (error_code == insufficient_args)
+		ft_putstr_fd("Missing args. Usage: "
+			"./client <server_PID> <string_to_send>\n", 2);
+	else if (error_code == too_many_args)
+		ft_putstr_fd("Too many args. Usage: "
+			"./client <server_PID> <string_to_send>\n", 2);
+	exit (EXIT_FAILURE);
+}
