@@ -6,13 +6,11 @@
 /*   By: bmoretti <bmoretti@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/07 17:32:36 by bmoretti          #+#    #+#             */
-/*   Updated: 2023/12/11 21:00:47 by bmoretti         ###   ########.fr       */
+/*   Updated: 2023/12/12 09:51:05 by bmoretti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "server.h"
-
-static short int	green_flag = 0;
 
 void	sig_handler(int signum, siginfo_t *info, void* ucontent)
 {
@@ -21,10 +19,7 @@ void	sig_handler(int signum, siginfo_t *info, void* ucontent)
 
 	(void)ucontent;
 	if (signum == SIGUSR1)
-	{
 		c |= 1 << i;
-		//write(1, "", 1);
-	}
 	if (i-- == 0)
 	{
 		if (c == 4)
@@ -36,8 +31,10 @@ void	sig_handler(int signum, siginfo_t *info, void* ucontent)
 			write(1, &c, 1);
 		c = 0;
 		i = 7;
+		if (c == 4)
+			return ;
 	}
-	usleep(600);
+	usleep(700);
 	kill(info->si_pid, SIGUSR1);
 }
 
