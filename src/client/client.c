@@ -6,67 +6,82 @@
 /*   By: bmoretti <bmoretti@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/07 17:10:39 by bmoretti          #+#    #+#             */
-/*   Updated: 2023/12/07 21:07:33 by bmoretti         ###   ########.fr       */
+/*   Updated: 2023/12/11 17:49:52 by bmoretti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "client.h"
 
-static short int	g_receiver = 0;
+static short int	green_flag = 0;
 
-void	args_check(int argc)
+void	args_check(int argc, char **argv)
 {
+	char*	pid;
+
 	if (argc < 3)
 		errors(insufficient_args);
 	else if (argc > 3)
 		errors(too_many_args);
+	pid = argv[1];
+	while (*pid)
+		if (!ft_isdigit(*(pid++)))
+			errors(invalid_pid);
+	if (*argv[2] == 0)
+		errors(invalid_message);
 }
 
-void sig_handler(int signum, siginfo_t* info, void* context)
+void sig_handler(int signum)
 {
-	static unsigned int	i = 0;
-
-	g_receiver = 1;
-	if	(signum == SIGUSR2)
-		i++;
-	else if (signum == SIGUSR1)
-		ft_putnbr_fd(i, 1);
+	if (signum == SIGUSR1)
+		green_flag = 1;
+	if (signum == SIGUSR2)
+		exit (EXIT_SUCCESS);
 }
 
-void	send_char_to_pid(char c, pid_t pid)
+void	send_message(pid_t server_pid, const char* msg)
 {
-	short int i;
+	unsigned char		c;
+	short int			i;
 
-	i = 8;
-	while (i--)
+	while (*msg)
 	{
-		if ((c >> i) & 1)
-			kill(pid, SIGUSR1);
-		else
-			kill(pid, SIGUSR2);
+		c = (unsigned char)*msg;
+		i = 8;
+		while (i--)
+		{
+			if (c >> i & 1)
+				kill(server_pid, SIGUSR1);
+			else
+				kill(server_pid, SIGUSR2);
+			green_flag = 0;
+			while (!green_flag)
+				pause();
+		}
+		msg++;
 	}
 }
-void	config_signals(void)
+
+void	set_signals(void)
 {
 	struct sigaction	sa;
 
 	sa.sa_handler = &sig_handler;
 	sa.sa_flags = SA_SIGINFO;
-	if (sigaction(SIGUSR1, &sa, NULL) == -1)
-		handle_errors("Failed to change SIGUSR1's behavior");
-	if (sigaction(SIGUSR2, &sa, NULL) == -1)
-		handle_errors("Failed to change SIGUSR2's behavior");
+	if (sigaction(SIGUSR1, &sa, NULL) == -1
+		|| sigaction(SIGUSR2, &sa, NULL) == -1)
+		errors(fail_set_signal);
 }
 
 int	main(int argc, char** argv)
 {
 	pid_t	pid;
+	char	end;
 
-
-	args_check(argc);
+	args_check(argc, argv);
 	pid = (pid_t)ft_atoi(argv[1]);
-	sigemptyset();
-	while (1)
-		pause();
+	set_signals();
+	send_message(pid, argv[2]);
+	end = (char)4;
+	send_message(pid, &end);
 	return (0);
 }

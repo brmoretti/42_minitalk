@@ -6,7 +6,8 @@ CC					=	cc
 CC_FLAGS			=	-Wall	\
 						-Wextra	\
 						-Werror	\
-						-O2
+						-g3
+##CC_FLAGS			=	#test purposes
 
 #≻───░⋆ ✪ PROJECT DIRECTORIES & FILES ✪ ⋆░───────────────────────────────────≺#
 SRC_DIR_CLIENT		=	src/client
@@ -18,13 +19,14 @@ INCLUDES			=	$(addprefix $(INCLUDE_DIR)/, $(INCLUDE_FILES))
 BUILD_DIR			=	build
 SRC_FILES_CLIENT	=	client.c	\
 						errors.c
-SRC_FILES_SERVER	=	server.c
+SRC_FILES_SERVER	=	server.c	\
+						errors.c
 SRCS_CLIENT			=	$(addprefix $(SRC_DIR_CLIENT)/, $(SRC_FILES_CLIENT))
 SRCS_SERVER			=	$(addprefix $(SRC_DIR_SERVER)/, $(SRC_FILES_SERVER))
 OBJS_CLIENT			=	$(SRC_FILES_CLIENT:.c=.o)
 OBJS_SERVER			=	$(SRC_FILES_SERVER:.c=.o)
-BUILDS_CLIENT		=	$(addprefix $(BUILD_DIR)/, $(OBJS_CLIENT))
-BUILDS_SERVER		=	$(addprefix $(BUILD_DIR)/, $(OBJS_SERVER))
+BUILDS_CLIENT		=	$(addprefix $(BUILD_DIR)/client/, $(OBJS_CLIENT))
+BUILDS_SERVER		=	$(addprefix $(BUILD_DIR)/server/, $(OBJS_SERVER))
 
 #≻───░⋆ ✪ LIBFT EXTRA ✪ ⋆░───────────────────────────────────────────────────≺#
 LIBFT_REPO			=	https://github.com/brmoretti/42_libft_extra.git
@@ -70,8 +72,11 @@ $(SERVER): $(LIBFT_LIB) $(BUILD_DIR) $(BUILDS_SERVER) $(INCLUDES)
 
 $(BUILD_DIR):
 	@ mkdir $(BUILD_DIR)
+	@ cd $(BUILD_DIR) &&	\
+	  mkdir client &&		\
+	  mkdir server
 
-$(BUILD_DIR)/%.o: $(SRC_DIR_CLIENT)/%.c $(INCLUDES)
+$(BUILD_DIR)/client/%.o: $(SRC_DIR_CLIENT)/%.c $(INCLUDES)
 	@ printf "$(MAGENTA)$< $(BLUE)->$(GREEN) $@$(DEFAULT)\n"
 	@ $(CC) -c $<				\
 	  -I./$(INCLUDE_DIR)		\
@@ -79,7 +84,7 @@ $(BUILD_DIR)/%.o: $(SRC_DIR_CLIENT)/%.c $(INCLUDES)
 	  -o $@						\
 	  $(CC_FLAGS)
 
-$(BUILD_DIR)/%.o: $(SRC_DIR_SERVER)/%.c $(INCLUDES)
+$(BUILD_DIR)/server/%.o: $(SRC_DIR_SERVER)/%.c $(INCLUDES)
 	@ printf "$(MAGENTA)$< $(BLUE)->$(GREEN) $@$(DEFAULT)\n"
 	@ $(CC) -c $<				\
 	  -I./$(INCLUDE_DIR)		\
