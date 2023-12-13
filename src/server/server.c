@@ -6,7 +6,7 @@
 /*   By: bmoretti <bmoretti@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/07 17:32:36 by bmoretti          #+#    #+#             */
-/*   Updated: 2023/12/12 09:51:05 by bmoretti         ###   ########.fr       */
+/*   Updated: 2023/12/13 17:34:01 by bmoretti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	sig_handler(int signum, siginfo_t *info, void* ucontent)
 	{
 		if (c == 4)
 		{
-			ft_putstr_fd("\n--- end ---\n", 1);
+			ft_putstr_fd("\n\033[32m--- END ---\033[0m\n", 1);
 			kill(info->si_pid, SIGUSR2);
 		}
 		else
@@ -34,7 +34,6 @@ void	sig_handler(int signum, siginfo_t *info, void* ucontent)
 		if (c == 4)
 			return ;
 	}
-	usleep(700);
 	kill(info->si_pid, SIGUSR1);
 }
 
@@ -56,6 +55,6 @@ int	main(void)
 	ft_putchar_fd('\n', 1);
 	set_signals();
 	while (1)
-		pause();
+		;
 	return (0);
 }
