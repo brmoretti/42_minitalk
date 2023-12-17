@@ -95,7 +95,8 @@ clean: clean_libft
 	@ rm -rf $(BUILD_DIR)
 
 fclean: fclean_libft clean
-	@ rm -rf $(NAME)
+	@ rm -rf $(CLIENT)
+	@ rm -rf $(SERVER)
 
 re: fclean all
 
