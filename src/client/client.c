@@ -6,7 +6,11 @@
 /*   By: brmoretti <brmoretti@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/07 17:10:39 by bmoretti          #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2023/12/16 19:19:15 by brmoretti        ###   ########.fr       */
+=======
+/*   Updated: 2023/12/13 17:35:17 by bmoretti         ###   ########.fr       */
+>>>>>>> 9cea11fcbc54fa69d6870b065252fba7eecc43bc
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +40,11 @@ void sig_handler(int signum)
 		green_flag = 1;
 	if (signum == SIGUSR2)
 	{
+<<<<<<< HEAD
 		ft_putstr_fd("\n\033[0;32m--- MESSAGE SENT ---\033[0;0m\n", 1);
+=======
+		ft_putstr_fd("\n\033[32m--- MESSAGE SENT ---\033[0m\n", 1);
+>>>>>>> 9cea11fcbc54fa69d6870b065252fba7eecc43bc
 		exit (EXIT_SUCCESS);
 	}
 }
@@ -64,17 +72,6 @@ void	send_message(pid_t server_pid, const char* msg)
 	}
 }
 
-void	set_signals(void)
-{
-	struct sigaction	sa;
-
-	sa.sa_handler = &sig_handler;
-	sa.sa_flags = SA_SIGINFO;
-	if (sigaction(SIGUSR1, &sa, NULL) == -1
-		|| sigaction(SIGUSR2, &sa, NULL) == -1)
-		errors(fail_set_signal);
-}
-
 int	main(int argc, char** argv)
 {
 	pid_t	pid;
@@ -82,7 +79,9 @@ int	main(int argc, char** argv)
 
 	args_check(argc, argv);
 	pid = (pid_t)ft_atoi(argv[1]);
-	set_signals();
+	if ((signal(SIGUSR1, sig_handler) == SIG_ERR)
+		|| (signal(SIGUSR2, sig_handler) == SIG_ERR))
+		errors(fail_set_signal);
 	send_message(pid, argv[2]);
 	end = (char)4;
 	send_message(pid, &end);
