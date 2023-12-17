@@ -7,7 +7,6 @@ CC_FLAGS			=	-Wall	\
 						-Wextra	\
 						-Werror	\
 						-g3
-##CC_FLAGS			=	#test purposes
 
 #≻───░⋆ ✪ PROJECT DIRECTORIES & FILES ✪ ⋆░───────────────────────────────────≺#
 SRC_DIR_CLIENT		=	src/client

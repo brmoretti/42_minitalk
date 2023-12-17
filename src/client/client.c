@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   client.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bmoretti <bmoretti@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: brmoretti <brmoretti@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/07 17:10:39 by bmoretti          #+#    #+#             */
-/*   Updated: 2023/12/11 21:38:55 by bmoretti         ###   ########.fr       */
+/*   Updated: 2023/12/16 19:19:15 by brmoretti        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,10 @@ void sig_handler(int signum)
 	if (signum == SIGUSR1)
 		green_flag = 1;
 	if (signum == SIGUSR2)
+	{
+		ft_putstr_fd("\n\033[0;32m--- MESSAGE SENT ---\033[0;0m\n", 1);
 		exit (EXIT_SUCCESS);
+	}
 }
 
 void	send_message(pid_t server_pid, const char* msg)
@@ -49,13 +52,13 @@ void	send_message(pid_t server_pid, const char* msg)
 		i = 8;
 		while (i--)
 		{
+			green_flag = 0;
 			if (c >> i & 1)
 				kill(server_pid, SIGUSR1);
 			else
 				kill(server_pid, SIGUSR2);
-			green_flag = 0;
 			while (!green_flag)
-				pause();
+				;
 		}
 		msg++;
 	}
