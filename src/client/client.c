@@ -5,22 +5,18 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: brmoretti <brmoretti@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/12/07 17:10:39 by bmoretti          #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2023/12/16 19:19:15 by brmoretti        ###   ########.fr       */
-=======
-/*   Updated: 2023/12/13 17:35:17 by bmoretti         ###   ########.fr       */
->>>>>>> 9cea11fcbc54fa69d6870b065252fba7eecc43bc
+/*   Created: 2023/12/16 23:56:44 by brmoretti         #+#    #+#             */
+/*   Updated: 2023/12/16 23:59:30 by brmoretti        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "client.h"
 
-static short int	green_flag = 0;
+static short int	g_green_flag = 0;
 
 void	args_check(int argc, char **argv)
 {
-	char*	pid;
+	char	*pid;
 
 	if (argc < 3)
 		errors(insufficient_args);
@@ -34,22 +30,18 @@ void	args_check(int argc, char **argv)
 		errors(invalid_message);
 }
 
-void sig_handler(int signum)
+void	sig_handler(int signum)
 {
 	if (signum == SIGUSR1)
-		green_flag = 1;
+		g_green_flag = 1;
 	if (signum == SIGUSR2)
 	{
-<<<<<<< HEAD
 		ft_putstr_fd("\n\033[0;32m--- MESSAGE SENT ---\033[0;0m\n", 1);
-=======
-		ft_putstr_fd("\n\033[32m--- MESSAGE SENT ---\033[0m\n", 1);
->>>>>>> 9cea11fcbc54fa69d6870b065252fba7eecc43bc
 		exit (EXIT_SUCCESS);
 	}
 }
 
-void	send_message(pid_t server_pid, const char* msg)
+void	send_message(pid_t server_pid, const char *msg)
 {
 	unsigned char		c;
 	short int			i;
@@ -60,19 +52,19 @@ void	send_message(pid_t server_pid, const char* msg)
 		i = 8;
 		while (i--)
 		{
-			green_flag = 0;
+			g_green_flag = 0;
 			if (c >> i & 1)
 				kill(server_pid, SIGUSR1);
 			else
 				kill(server_pid, SIGUSR2);
-			while (!green_flag)
+			while (!g_green_flag)
 				;
 		}
 		msg++;
 	}
 }
 
-int	main(int argc, char** argv)
+int	main(int argc, char **argv)
 {
 	pid_t	pid;
 	char	end;

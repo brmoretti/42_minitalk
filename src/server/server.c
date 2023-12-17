@@ -6,13 +6,13 @@
 /*   By: brmoretti <brmoretti@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/07 17:32:36 by bmoretti          #+#    #+#             */
-/*   Updated: 2023/12/16 23:51:53 by brmoretti        ###   ########.fr       */
+/*   Updated: 2023/12/16 23:56:04 by brmoretti        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "server.h"
 
-void	sig_handler(int signum, siginfo_t *info, void* ucontent)
+void	sig_handler(int signum, siginfo_t *info, void *ucontent)
 {
 	static short int		i = 7;
 	static unsigned char	c = 0;
