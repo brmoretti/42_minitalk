@@ -53,8 +53,8 @@ To use the Minitalk chat application, follow these steps:
 	```bash
 	./client [server_pid] [message]
 	```
-	Replace `[server_pid]` with the process ID of the server and `[message]` with the message you want to send.
+	Replace `[server_pid]` with the process ID of the server and `[message]` with the message you want to send. **Unicode characters are supported.**🔡💻🔤
 
-3. The server will display the received message in the terminal. **Unicode characters are supported.**🔡💻🔤
+3. The server will display the received message in the terminal.
 
 4. To stop the server, press `Ctrl + C` in the terminal.
