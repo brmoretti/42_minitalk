@@ -3,9 +3,10 @@ NAME				=	minitalk
 CLIENT				=	client
 SERVER				=	server
 CC					=	cc
-CC_FLAGS			=	-Wall	\
-						-Wextra	\
-						-Werror	\
+CC_FLAGS			=	-Wall		\
+						-Wextra		\
+						-Werror		\
+						-pedantic	\
 						-g3
 
 #≻───░⋆ ✪ PROJECT DIRECTORIES & FILES ✪ ⋆░───────────────────────────────────≺#

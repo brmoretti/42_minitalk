@@ -6,13 +6,13 @@
 /*   By: brmoretti <brmoretti@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/07 17:32:36 by bmoretti          #+#    #+#             */
-/*   Updated: 2023/12/16 23:56:04 by brmoretti        ###   ########.fr       */
+/*   Updated: 2024/02/21 10:11:11 by brmoretti        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "server.h"
 
-void	sig_handler(int signum, siginfo_t *info, void *ucontent)
+static void	sig_handler(int signum, siginfo_t *info, void *ucontent)
 {
 	static short int		i = 7;
 	static unsigned char	c = 0;
@@ -37,7 +37,7 @@ void	sig_handler(int signum, siginfo_t *info, void *ucontent)
 	kill(info->si_pid, SIGUSR1);
 }
 
-void	set_signals(void)
+static void	set_signals(void)
 {
 	struct sigaction	sa;
 
@@ -55,6 +55,6 @@ int	main(void)
 	ft_putchar_fd('\n', 1);
 	set_signals();
 	while (1)
-		sleep(42);
+		pause();
 	return (0);
 }

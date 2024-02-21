@@ -6,15 +6,15 @@
 /*   By: brmoretti <brmoretti@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/16 23:56:44 by brmoretti         #+#    #+#             */
-/*   Updated: 2023/12/16 23:59:30 by brmoretti        ###   ########.fr       */
+/*   Updated: 2024/02/21 10:02:20 by brmoretti        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "client.h"
 
-static short int	g_green_flag = 0;
+static volatile short int	g_green_flag = 0;
 
-void	args_check(int argc, char **argv)
+static void	args_check(int argc, char **argv)
 {
 	char	*pid;
 
@@ -30,7 +30,7 @@ void	args_check(int argc, char **argv)
 		errors(invalid_message);
 }
 
-void	sig_handler(int signum)
+static void	sig_handler(int signum)
 {
 	if (signum == SIGUSR1)
 		g_green_flag = 1;
@@ -41,7 +41,7 @@ void	sig_handler(int signum)
 	}
 }
 
-void	send_message(pid_t server_pid, const char *msg)
+static void	send_message(pid_t server_pid, const char *msg)
 {
 	unsigned char		c;
 	short int			i;
